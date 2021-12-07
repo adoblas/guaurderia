@@ -1,0 +1,2 @@
+{{extend 'layout.html'}}
+<h1>Thanks for posting to MY BLOG</h1>

@@ -1,0 +1,31 @@
+{{extend 'layout.html'}}
+<h1>Lista de mascotas</h1>
+<form method="post">
+    <input type="text" name="mascota" />
+    <input type="submit" value="Buscar" />
+</form>
+
+<h1>Mascotas</h1>
+| <a href='/{{=request.application}}/{{=request.controller}}/view/'>Todas</a>
+| <a href='/{{=request.application}}/{{=request.controller}}/view/A'>A</a>
+| <a href='/{{=request.application}}/{{=request.controller}}/view/B'>B</a>
+| <a href='/{{=request.application}}/{{=request.controller}}/view/C'>C</a>
+| <a href='/{{=request.application}}/{{=request.controller}}/add'>Nueva mascota</a>
+
+<h4>
+    Resultado busqueda
+</h4>
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Mascota</th>
+        <th>Bono</th>
+        <th>Dias</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.perro}}</a></td>
+        <td>{{=x.bono}}</td>
+        <td>{{=x.dias}}</td>
+    </tr>
+    {{ pass }}
+</table>

@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+<h1>The numbers for the calculus are:</h1>
+<form method="post">
+    <input type="text" name="number1" />
+    <input type="text" name="number2" />
+    <input type="text" name="number3" />
+    <input type="submit" value="Add" />
+</form>
+
+<h4>
+    The sumatory of numbers: {{=number1}}, {{=number2}} and {{=number3}}.
+</h4>
+<h3>
+    TOTAL is: {{=total}}
+</h3>
