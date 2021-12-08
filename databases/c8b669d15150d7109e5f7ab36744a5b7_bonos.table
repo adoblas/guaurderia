@@ -99,12 +99,12 @@ I00
 sg9
 I512
 sg10
-S'CHAR(512)'
+S'DATE'
 p38
 sg12
 I00
 sg13
-S'string'
+S'date'
 p39
 ssS'mascota'
 p40
@@ -150,5 +150,6 @@ p50
 sg12
 I00
 sg13
-g39
+S'string'
+p51
 ss.
