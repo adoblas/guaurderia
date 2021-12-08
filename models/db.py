@@ -193,13 +193,13 @@ db.define_table('propietarios',
 
 db.define_table('mascotas',
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
-                Field('estado', label=T('Estado actual en la Guaurdería')),
+                #Field('estado', requires=IS_IN_SET(['activo', 'inactivo']), label=T('Estado actual en la Guaurdería')),
                 #Field('bonos', 'reference bonos', requires=IS_IN_DB(db, 'bonos.id', '%(tipo_bono)s'), label=T('Bonos Actuales')),
                 Field('raza', label=T('Raza Mascota')),
                 Field('sexo', requires=IS_IN_SET(['macho', 'hembra']), label=T('Sexo Mascota')),
                 Field('descripcion', label=T('Descripción')),
                 Field('instagram', label=T('Cuenta Instagram') ),
-                Field('propietario', 'reference propietarios', requires=IS_IN_DB(db, 'propietario.id', '%(nombre)s'), label=T('Propietario/a'))
+                Field('propietario', 'reference propietarios', label=T('Propietario/a'))
                 )
 
 db.define_table('bonos',
@@ -208,6 +208,8 @@ db.define_table('bonos',
                 Field('duracion_expira', label=T('Expira en fecha')),
                 Field('dias_resto', label=T('Resto de dias'))
                 )
+
+db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre)s')
 
 db.bonos.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s')
 db.bonos.tipo_bono.requires = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')

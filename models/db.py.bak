@@ -199,15 +199,17 @@ db.define_table('mascotas',
                 Field('sexo', requires=IS_IN_SET(['macho', 'hembra']), label=T('Sexo Mascota')),
                 Field('descripcion', label=T('Descripción')),
                 Field('instagram', label=T('Cuenta Instagram') ),
-                Field('propietario', 'reference propietarios', requires=IS_IN_DB(db, 'propietario.id', '%(nombre)s'), label=T('Propietario/a'))
+                Field('propietario', 'reference propietarios', label=T('Propietario/a'))
                 )
 
 db.define_table('bonos',
-                Field('nombre', 'reference mascotas'),
+                Field('mascota', 'reference mascotas'),
                 Field('tipo_bono', 'reference tipo_bono', label=T('Tipo Bono')),
                 Field('duracion_expira', label=T('Expira en fecha')),
                 Field('dias_resto', label=T('Resto de dias'))
                 )
 
+db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre)s')
+
 db.bonos.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s')
-db.bonos.bono.requires      = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')
+db.bonos.tipo_bono.requires = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')
