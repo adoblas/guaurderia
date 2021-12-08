@@ -1,0 +1,313 @@
+timestamp: 2021-12-07T13:31:39.912849
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2021-12-07T13:31:39.922486
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2021-12-07T13:31:39.926643
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-12-07T13:31:39.932092
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2021-12-07T13:31:39.943514
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2021-12-07T13:31:39.949692
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2021-12-07T14:57:22.019628
+CREATE TABLE "blog"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "blog_title" CHAR(512),
+    "blog_details" TEXT,
+    "blog_image" CHAR(512),
+    "blog_url" CHAR(512),
+    "blog_category" CHAR(512),
+    "blog_date_posted" DATE
+);
+success!
+timestamp: 2021-12-07T19:03:04.468619
+CREATE TABLE "mascotas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "mascota" CHAR(512),
+    "fecha_alta" CHAR(512),
+    "estado" CHAR(512),
+    "email" CHAR(512),
+    "dias" CHAR(512),
+    "bono" CHAR(512),
+    "raza" CHAR(512),
+    "instagram" CHAR(512)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-12-07T19:25:12.218573
+ALTER TABLE "mascotas" ADD "perro" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-12-07T19:28:48.025326
+ALTER TABLE "mascotas" ADD "nombre_mascota" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-12-07T19:33:11.548471
+CREATE TABLE "perros"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" CHAR(512),
+    "perro" CHAR(512),
+    "estado" CHAR(512),
+    "email" CHAR(512),
+    "dias" CHAR(512),
+    "bono" CHAR(512),
+    "raza" CHAR(512),
+    "instagram" CHAR(512)
+);
+success!
+timestamp: 2021-12-07T19:37:36.540032
+CREATE TABLE "usuario"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "perro" CHAR(512),
+    "estado" CHAR(512),
+    "email" CHAR(512),
+    "dias" CHAR(512),
+    "bono" CHAR(512),
+    "raza" CHAR(512),
+    "instagram" CHAR(512)
+);
+success!
+timestamp: 2021-12-07T19:37:48.851086
+CREATE TABLE "mascota"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "perro" CHAR(512),
+    "estado" CHAR(512),
+    "email" CHAR(512),
+    "dias" CHAR(512),
+    "bono" CHAR(512),
+    "raza" CHAR(512),
+    "instagram" CHAR(512)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-12-08T10:51:36.855472
+ALTER TABLE "mascotas" ADD "nombre" CHAR(512);
+success!
+success!
+success!
+success!
+timestamp: 2021-12-08T10:53:39.349035
+ALTER TABLE "mascotas" ADD "descripcion" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-12-08T13:16:10.949912
+CREATE TABLE "tipo_bono"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "tipo_bono" CHAR(512),
+    "precio" DOUBLE,
+    "duracion" CHAR(512),
+    "dias" CHAR(512)
+);
+success!
+timestamp: 2021-12-08T13:25:14.664718
+CREATE TABLE "propietarios"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "apellidos" CHAR(512),
+    "email" CHAR(512)
+);
+success!
+timestamp: 2021-12-08T13:25:14.697675
+ALTER TABLE "mascotas" ADD "propietario" INTEGER REFERENCES "propietarios" ("id") ON DELETE CASCADE  ;
+timestamp: 2021-12-08T13:25:14.716337
+ALTER TABLE "mascotas" ADD "sexo" CHAR(512);
+success!
+timestamp: 2021-12-08T13:25:14.976141
+CREATE TABLE "bonos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" INTEGER REFERENCES "mascotas" ("id") ON DELETE CASCADE  ,
+    "tipo_bono" INTEGER REFERENCES "tipo_bono" ("id") ON DELETE CASCADE  ,
+    "duracion_expira" CHAR(512),
+    "dias_resto" CHAR(512)
+);
+success!
+success!
+success!
+success!
+timestamp: 2021-12-08T13:25:59.246837
+ALTER TABLE "bonos" ADD "mascota" INTEGER REFERENCES "mascotas" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
