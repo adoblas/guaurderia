@@ -188,6 +188,13 @@ db.define_table('propietarios',
                 Field('nombre', requires=IS_NOT_EMPTY() ),
                 Field('apellidos', requires=IS_NOT_EMPTY() ),
                 Field('email', requires=IS_EMAIL() ),
+                Field('telefono', label=T('Telefono contacto')),
+                Field('veterinario', label=T('Veterinario habitual')),
+                Field('informacion', type='boolean', label=T('Recibir información por email')),
+                Field('redes', type='boolean', label=T('Etiquetar en redes')),
+                Field('datos', type='boolean', label=T('Protección de datos')),
+                Field('telefono2', label=T('Telefono contacto 2')),
+                Field('dni', label=T('DNI'))
                 )
 
 db.define_table('mascotas',
