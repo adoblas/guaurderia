@@ -192,7 +192,8 @@ db.define_table('propietarios',
                 Field('redes', type='boolean', label=T('Etiquetar en redes')),
                 Field('datos', type='boolean', label=T('Protección de datos')),
                 Field('telefono2', label=T('Telefono contacto 2')),
-                Field('dni', label=T('DNI'))
+                Field('dni', label=T('DNI')),
+                auth.signature
                 )
 
 db.define_table('mascotas',
@@ -206,14 +207,16 @@ db.define_table('mascotas',
                 Field('vacunacion', type='text', label=T('Vacunación')),
                 Field('veterinario', label=T('Veterinario habitual')),
                 Field('instagram', label=T('Cuenta Instagram') ),
-                Field('propietario', 'reference propietarios', label=T('Propietario/a'))
+                Field('propietario', 'reference propietarios', label=T('Propietario/a')),
+                auth.signature
                 )
 
 db.define_table('bonos',
                 Field('mascota', 'reference mascotas'),
                 Field('tipo_bono', 'reference tipo_bono', label=T('Tipo Bono')),
                 Field('duracion_expira', type='date', label=T('Expira en fecha')),
-                Field('dias_resto', label=T('Resto de dias'))
+                Field('dias_resto', label=T('Resto de dias')),
+                auth.signature
                 )
 
 db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_apellidos)s')
