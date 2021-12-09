@@ -185,11 +185,9 @@ db.define_table('tipo_bono',
                 )
 
 db.define_table('propietarios',
-                Field('nombre', requires=IS_NOT_EMPTY() ),
-                Field('apellidos', requires=IS_NOT_EMPTY() ),
+                Field('nombre_apellidos', requires=IS_NOT_EMPTY() ),
                 Field('email', requires=IS_EMAIL() ),
                 Field('telefono', label=T('Telefono contacto')),
-                Field('veterinario', label=T('Veterinario habitual')),
                 Field('informacion', type='boolean', label=T('Recibir información por email')),
                 Field('redes', type='boolean', label=T('Etiquetar en redes')),
                 Field('datos', type='boolean', label=T('Protección de datos')),
@@ -201,7 +199,12 @@ db.define_table('mascotas',
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
                 Field('raza', label=T('Raza Mascota')),
                 Field('sexo', requires=IS_IN_SET(['macho', 'hembra']), label=T('Sexo Mascota')),
-                Field('descripcion', label=T('Descripción')),
+                Field('descripcion', type='text', label=T('Descripción')),
+                Field('fecha_nacimiento', type='date', label=T('Fecha nacimiento')),
+                Field('inscripcion', type='date', label=T('Fecha inscripción')),
+                Field('esterilizado', type='boolean', label=T('Esterilizado')),
+                Field('vacunacion', type='text', label=T('Vacunación')),
+                Field('veterinario', label=T('Veterinario habitual')),
                 Field('instagram', label=T('Cuenta Instagram') ),
                 Field('propietario', 'reference propietarios', label=T('Propietario/a'))
                 )
@@ -213,7 +216,7 @@ db.define_table('bonos',
                 Field('dias_resto', label=T('Resto de dias'))
                 )
 
-db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre)s %(apellidos)s')
+db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_apellidos)s')
 
 db.bonos.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
 db.bonos.tipo_bono.requires = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')
