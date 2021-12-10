@@ -1,9 +1,0 @@
-{{extend 'layout.html'}}
-<h1>My first page!!</h1>
-<h2>
-    {{=msg}}
-</h2>
-
-<p>
-    Writting my first page was veeeery easy!
-</p>

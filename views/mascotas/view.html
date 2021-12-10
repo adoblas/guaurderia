@@ -46,15 +46,19 @@
         <th>Raza</th>
         <th>Bonos</th>
         <th>Descripción</th>
-        <th>instagram</th>
+        <th>Propietario</th>
     </tr>
     {{ for x in rows: }}
     <tr>
         <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.nombre}}</a></td>
         <td>{{=x.raza}}</td>
-        <td><a href='/{{=request.application}}/bonos/update/{{=bonosdir[x.id][0]}}'>{{=bonosdir[x.id][1]}}</a></td>
+        <td>
+            {{ for bono in dict_bonos[x.id] :}}
+                <a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.tipo_bono}}</a>
+            {{ pass }}
+        </td>
         <td>{{=x.descripcion}}</td>
-        <td>{{=x.instagram}}</td>
+        <td><a href='/propietarios/{{=request.controller}}/update/{{=x.propietario}}'>{{=x.propietario.nombre_apellidos}}</a></td>
     </tr>
     {{ pass }}
 </table>

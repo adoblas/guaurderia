@@ -4,14 +4,9 @@ def index(): #return dict(message="hello from propietarios.py")
     return locals()
 
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
-def data():
-    rows = db(db.propietarios).select()
-    return locals()
-
-@auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def add():
-    form = SQLFORM(db.propietarios).process()
-    form.add_button('Volver', URL('view'))
+    form = SQLFORM(db.propietarios, 
+    buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Crear propietario', _type="submit")]).process()
     if form.process().accepted:
         response.flash = T('Propietario creado')
         redirect(URL('view'))
@@ -36,33 +31,23 @@ def view():
             rows = db(db.propietarios).select(limitby=(0, 50))
         else:
             nombre = request.args(0)
-            if nombre.find("-") == -1:
-                rows = db(db.propietarios.nombre_apellidos.startswith(nombre)).select()
-                form.add_button('Volver', URL('view'))
-            else:
-                listarango = nombre.split('-')
-                rango_inf = listarango[0]
-                rango_sup = listarango[1]
-                rows = db(db.propietarios).select(limitby=(int(rango_inf), int(rango_sup)))
-    mascotasdir = {}
+            listarango = nombre.split('-')
+            rango_inf = listarango[0]
+            rango_sup = listarango[1]
+            rows = db(db.propietarios).select(limitby=(int(rango_inf), int(rango_sup)))
+    dict_mascotas = {}
     for x in rows:
-        selectmascotas = db(db.mascotas.propietario==x.id).select(db.mascotas.nombre,db.mascotas.id)
-        if len(selectmascotas) != 0:
-            mascotadata = []
-            mascotadata.append(selectmascotas[0].id)
-            mascotadata.append(selectmascotas[0].nombre)
-            mascotasdir[x.id] = mascotadata
-        else:
-            mascotasdir[x.id] = ['','']
+        dict_mascotas[x.id] = db(db.mascotas.propietario==x.id).select(db.mascotas.nombre,db.mascotas.id)
     return locals()
 
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def update():
     record = db.propietarios(request.args(0)) or redirect(URL('view'))
-    form = SQLFORM(db.propietarios, record, submit_button='Guardar')
-    form.add_button('Volver', URL('view'))
+    form = SQLFORM(db.propietarios, record, deletable = True, 
+    buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Guardar cambios', _type="submit")])
     if form.process().accepted:
         response.flash = T('Propietario actualizado')
+        redirect(URL('view'))
     else:
         response.flash = T('Edita información del propietario')
     return locals()

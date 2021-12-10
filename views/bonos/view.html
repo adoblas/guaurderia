@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/1'>Mes</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/2'>Mes (6h)</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/3'>10 Días</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/4'>10 Días (6h)</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/5'>Día</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/6'>Día (6h)</a></li>
+    
+    <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </a>
+    </li>
+    <li class="page-item">
+        <div  style="margin-left: auto;margin-right: 0;">
+            <a class="page-link" href='/{{=request.application}}/{{=request.controller}}/add'>Añadir bono</a></li>
+        </div>
+  </ul>
+</nav>
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Macota</th>
+        <th>Caduca</th>
+        <th>Tipo de Bono</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        <td><a href='/{{=request.application}}/mascotas/update/{{=x.mascota}}'>{{=x.mascota.nombre}}</a></td>
+        {{if x.tipo_bono.tipo_bono.find("mes")==-1 :}}
+        <td><a href='/{{=request.application}}/bonos/update/{{=x.id}}'>{{=x.dias_resto}}</a></td>
+        {{else:}}
+        <td><a href='/{{=request.application}}/bonos/update/{{=x.id}}'>{{=x.duracion_expira}}</a></td>
+        {{pass}}
+        <td><a href='/{{=request.application}}/tipo_bonos/update/{{=x.tipo_bono.tipo_bono}}'>{{=x.tipo_bono.tipo_bono}}</a></td>
+    </tr>
+    {{ pass }}
+</table>

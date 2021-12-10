@@ -154,26 +154,6 @@ if configuration.get('scheduler.enabled'):
 # -------------------------------------------------------------------------
 # auth.enable_record_versioning(db)
 
-db.define_table('blog',
-                Field('blog_title', requires=IS_NOT_EMPTY() ),
-                Field('blog_details', type='text'),
-                Field('blog_image', requires=IS_URL() ),
-                Field('blog_url', requires=IS_URL() ),
-                Field('blog_category', requires=IS_IN_SET(['News', 'Events']) ),
-                Field('blog_date_posted', type='date', requires=IS_DATE() )
-                )
-
-db.define_table('mascota',
-                Field('perro', requires=IS_NOT_EMPTY() ),
-                Field('estado'),
-                Field('email', requires=IS_EMAIL() ),
-                Field('dias', type='integer'),
-                Field('bono', requires=IS_IN_SET(['mes', 'mes 6h', '10 dias', '10 dias 6h', 'dia', 'dia 6h']) ),
-                Field('raza'),
-                Field('instagram')
-                )
-
-
 #########################################
 ############ Guaurderia DDBB ############
 #########################################
@@ -200,7 +180,7 @@ db.define_table('mascotas',
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
                 Field('raza', label=T('Raza Mascota')),
                 Field('sexo', requires=IS_IN_SET(['macho', 'hembra', '']), label=T('Sexo Mascota')),
-                Field('descripcion', type='text', label=T('Descripción')),
+                Field('descripcion', label=T('Descripción')),
                 Field('fecha_nacimiento', type='date', label=T('Fecha nacimiento')),
                 Field('inscripcion', type='date', label=T('Fecha inscripción')),
                 Field('esterilizado', type='boolean', label=T('Esterilizado')),

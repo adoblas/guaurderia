@@ -50,7 +50,11 @@
     {{ for x in rows: }}
     <tr>
         <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.nombre_apellidos}}</a></td>
-        <td><a href='/{{=request.application}}/mascotas/update/{{=mascotasdir[x.id][0]}}'>{{=mascotasdir[x.id][1]}}</a></td>
+        <td>
+            {{ for mascota in dict_mascotas[x.id] :}}
+                <a href='/{{=request.application}}/mascotas/update/{{=mascota.id}}'>{{=mascota.nombre}}</a>
+            {{ pass }}
+        </td>
         <td>{{=x.email}}</td>
         <td>{{=x.telefono}}</td>
     </tr>
