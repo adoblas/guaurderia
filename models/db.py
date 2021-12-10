@@ -178,7 +178,7 @@ db.define_table('mascota',
 ############ Guaurderia DDBB ############
 #########################################
 db.define_table('tipo_bono',
-                Field('tipo_bono', label=T('Tipo Bono'), requires=IS_IN_SET(['mes', 'mes 6h', '10 dias', '10 dias 6h', 'dia', 'dia 6h']) ),
+                Field('tipo_bono', label=T('Tipo Bono')),
                 Field('precio', requires=IS_NOT_EMPTY(), type='float'),
                 Field('duracion'),
                 Field('dias')
@@ -199,7 +199,7 @@ db.define_table('propietarios',
 db.define_table('mascotas',
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
                 Field('raza', label=T('Raza Mascota')),
-                Field('sexo', requires=IS_IN_SET(['macho', 'hembra']), label=T('Sexo Mascota')),
+                Field('sexo', requires=IS_IN_SET(['macho', 'hembra', '']), label=T('Sexo Mascota')),
                 Field('descripcion', type='text', label=T('Descripción')),
                 Field('fecha_nacimiento', type='date', label=T('Fecha nacimiento')),
                 Field('inscripcion', type='date', label=T('Fecha inscripción')),

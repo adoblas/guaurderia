@@ -56,3 +56,10 @@ def download():
     http://..../[app]/default/download/[filename]
     """
     return response.download(request, db)
+
+@auth.requires_membership('admin')
+def admin():
+    tabla = request.args(0) or 'auth_user'
+    if not tabla in db.tables(): redirect(URL('error'))
+    grid = SQLFORM.smartgrid(db[tabla], args=request.args[:1])
+    return locals()

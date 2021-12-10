@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# intente algo como
-def index(): return dict(message="hello from propietarios.py")
+def index(): #return dict(message="hello from propietarios.py")
+    redirect(URL('view'))
+    return locals()
 
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def data():
@@ -21,23 +22,28 @@ def add():
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def view():
     form = SQLFORM.factory(
-        Field('nombre_busqueda', label=T('Busqueda por nombre')), 
+        Field('nombre_busqueda', label=T('Buscar propietario')), 
         submit_button='Buscar')
     if form.process().accepted:
         response.flash = 'Resultados busqueda'
         session.nombrebusqueda = form.vars.nombre_busqueda
         if not session.nombrebusqueda:
-            rows = db(db.propietarios).select()
+            rows = db(db.propietarios).select(limitby=(0, 50))
         else:    
             rows = db(db.propietarios.nombre_apellidos.contains(session.nombrebusqueda)).select()
     else:
         if request.args(0) is None:
-            rows = db(db.propietarios).select()
+            rows = db(db.propietarios).select(limitby=(0, 50))
         else:
             nombre = request.args(0)
-            rows = db(db.propietarios.nombre_apellidos.startswith(nombre)).select()
-            form.add_button('Volver', URL('view'))
-
+            if nombre.find("-") == -1:
+                rows = db(db.propietarios.nombre_apellidos.startswith(nombre)).select()
+                form.add_button('Volver', URL('view'))
+            else:
+                listarango = nombre.split('-')
+                rango_inf = listarango[0]
+                rango_sup = listarango[1]
+                rows = db(db.propietarios).select(limitby=(int(rango_inf), int(rango_sup)))
     mascotasdir = {}
     for x in rows:
         selectmascotas = db(db.mascotas.propietario==x.id).select(db.mascotas.nombre,db.mascotas.id)
