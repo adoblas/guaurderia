@@ -199,7 +199,19 @@ db.define_table('bonos',
                 auth.signature
                 )
 
+db.define_table('asistencia',
+                Field('mascota', 'reference mascotas'),
+                Field('bono', 'reference bonos', label=T('Bono usado')),
+                Field('entrada', type='datetime', label=T('Registro de entrada')),
+                Field('salida', type='datetime',label=T('Registro de entrada')),
+                auth.signature
+                )
+
+
 db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_apellidos)s')
 
 db.bonos.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
 db.bonos.tipo_bono.requires = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')
+
+db.asistencia.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
+db.asistencia.bono.requires = IS_IN_DB(db, 'bonos.id')

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 def index():
     redirect(URL('view'))
     return locals()
@@ -17,7 +19,8 @@ def add():
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def view():
     if request.args(0) is None:
-        rows = db(db.bonos).select(limitby=(0, 50))
+        today=datetime.datetime(request.now.year,request.now.month,request.now.day)
+        rows = db(db.asistencia.entrada>=today).select()
     else:
         tipo = request.args(0)
         rows = db(db.bonos.tipo_bono==tipo).select()
