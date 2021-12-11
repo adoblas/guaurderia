@@ -1,12 +1,55 @@
 {{extend 'layout.html'}}
-<div class="container center">
-    <a href='/{{=request.application}}/{{=request.controller}}/view/' class="btn btn-info btn-lg active" role="button" aria-pressed="true">Bonos</a>
-    <br>
-    <a href='/{{=request.application}}/{{=request.controller}}/view/' class="btn btn-info btn-lg active" role="button" aria-pressed="true">Bonos</a>
-</div>
 
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+    <button type="button" class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add'>Registrar entrada</button>
+  </div>
 
-<br>
-<br>
-<br>
-{{=rows}}
+<br><br><br>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/mes'>Mes pasado-</a></li>
+        <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/semana'>Semana pasada-</a></li>
+        <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/ayer'>Ayer-</a></li>
+        <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/'>HOY</a></li>
+    </ul>
+</nav>
+
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Macota</th>
+        <th>Hora entrada</th>
+        <th>Hora salida</th>
+        <th>Caduca</th>
+        <th>Tipo de Bono</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        <td><a href='/{{=request.application}}/mascotas/update/{{=x.mascota}}'>{{=x.mascota.nombre}}</a></td>
+        <td>{{=x.entrada}}</a></td>
+        {{if x.bono :}}
+        <td>{{=x.salida}}</a></td>
+        {{else:}}
+        <td>
+            <button type="button" class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/salida/{{=x.id}}'>Registrar salida</button>
+        </td>
+        {{pass}}
+
+        {{if x.bono :}}
+        {{if x.bono.tipo_bono.tipo_bono.find("mes")==-1 :}}
+        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.dias_resto}}</a></td>
+        {{else:}}
+        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.duracion_expira}}</a></td>
+        {{pass}}
+        {{else:}}
+        <td>pendiente</td>
+        {{pass}}
+        
+        {{if x.bono :}}
+        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.tipo_bono.tipo_bono}}</a></td>
+        {{else:}}
+        <td>pendiente</td>
+        {{pass}}
+        
+    </tr>
+    {{ pass }}
+</table>

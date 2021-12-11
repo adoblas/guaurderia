@@ -203,7 +203,7 @@ db.define_table('asistencia',
                 Field('mascota', 'reference mascotas'),
                 Field('bono', 'reference bonos', label=T('Bono usado')),
                 Field('entrada', type='datetime', label=T('Registro de entrada')),
-                Field('salida', type='datetime',label=T('Registro de entrada')),
+                Field('salida', type='datetime',label=T('Registro de salida')),
                 auth.signature
                 )
 
