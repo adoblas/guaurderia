@@ -7,8 +7,10 @@
 {{=form}}
 
 
+{{ if record.modified_by: }}
 <div class="container center">
     <a>Última modificación: {{=record.modified_on}}</a>
     <br>
     <a>Hecha por: {{=record.modified_by.first_name}}</a>
 </div>
+{{ pass }}

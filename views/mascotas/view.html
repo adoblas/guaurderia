@@ -60,7 +60,7 @@
             {{ pass }}
         </td>
         <td>{{=x.descripcion}}</td>
-        <td><a href='/propietarios/{{=request.controller}}/update/{{=x.propietario}}'>{{=x.propietario.nombre_apellidos}}</a></td>
+        <td><a href='/{{=request.application}}/propietarios/update/{{=x.propietario}}'>{{=x.propietario.nombre_apellidos}}</a></td>
     </tr>
     {{ pass }}
 </table>
