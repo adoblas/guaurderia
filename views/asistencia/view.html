@@ -1,8 +1,8 @@
 {{extend 'layout.html'}}
 
 <div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
-    <button type="button" class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add'>Registrar entrada</button>
-  </div>
+    <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add' role="button">Registrar entrada</a>
+</div>
 
 <br><br><br>
 <nav aria-label="Page navigation example">
@@ -26,26 +26,22 @@
     <tr>
         <td><a href='/{{=request.application}}/mascotas/update/{{=x.mascota}}'>{{=x.mascota.nombre}}</a></td>
         <td>{{=x.entrada}}</a></td>
-        {{if x.bono :}}
+        {{if x.bono_usado :}}
         <td>{{=x.salida}}</a></td>
         {{else:}}
         <td>
-            <button type="button" class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/salida/{{=x.id}}'>Registrar salida</button>
+            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/salida/{{=x.id}}' role="button">Registrar salida</a>
         </td>
         {{pass}}
 
-        {{if x.bono :}}
-        {{if x.bono.tipo_bono.tipo_bono.find("mes")==-1 :}}
-        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.dias_resto}}</a></td>
-        {{else:}}
-        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.duracion_expira}}</a></td>
-        {{pass}}
+        {{if x.bono_usado :}}
+        <td>{{=x.caducidad}}</td>
         {{else:}}
         <td>pendiente</td>
         {{pass}}
         
-        {{if x.bono :}}
-        <td><a href='/{{=request.application}}/bonos/update/{{=x.bono}}'>{{=x.bono.tipo_bono.tipo_bono}}</a></td>
+        {{if x.bono_usado :}}
+        <td>{{=x.bono_usado}}</td>
         {{else:}}
         <td>pendiente</td>
         {{pass}}
