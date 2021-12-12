@@ -195,7 +195,7 @@ db.define_table('bonos',
                 Field('mascota', 'reference mascotas'),
                 Field('tipo_bono', 'reference tipo_bono', label=T('Tipo Bono')),
                 Field('duracion_expira', type='date', label=T('Expira en fecha')),
-                Field('dias_resto', label=T('Resto de dias')),
+                Field('dias_resto', type='integer', label=T('Resto de dias')),
                 auth.signature
                 )
 

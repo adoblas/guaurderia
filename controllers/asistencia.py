@@ -39,7 +39,7 @@ def salida():
             loopmsg = loopmsg + "Bono es: " + str(tipo)
 
             if tipo.find("mes") !=-1 :                                              #Matchea con mes
-                if bono.tipo_bono.tipo_bono.find("6h")!=-1 :                        #Mes6h
+                if tipo.find("6h")!=-1 :                        #Mes6h
                     if (form.vars.salida - record.entrada) > timedelta(hours=6) :   #Comprobacion de 6h (excedido)
                         msg = msg + "Bono de mes 6h no valido"
                         #### Siguiente bono
@@ -69,7 +69,7 @@ def salida():
                         #### Record mes
             else:
                 if tipo.find("10dias") != -1 :                                      #Bono de 10dias
-                    if bono.tipo_bono.tipo_bono.find("6h")!=-1 :                        #Mes6h
+                    if tipo.find("6h")!=-1 :                        #Mes6h
                         if (form.vars.salida - record.entrada) > timedelta(hours=6) :   #Comprobacion de 6h (excedido)
                             msg = msg + "Bono de 10 dias 6h no valido"
                             #### Siguiente bono
@@ -78,6 +78,8 @@ def salida():
                                 record.bono_usado = tipo                                    #Actualizando DDBB
                                 record.caducidad = bono.dias_resto - 1
                                 record.salida = form.vars.salida
+                                record.update_record()
+                                db(db.bonos.id == bono.id).update(dias_resto=record.caducidad)
                                 record.update_record()
                                 response.flash = T("Bono de 6 horas mes usado. Asistencia registrada.")
                                 redirect(URL('view'))
@@ -91,6 +93,7 @@ def salida():
                             record.bono_usado = tipo                                    #Actualizando DDBB
                             record.caducidad = bono.dias_resto - 1
                             record.salida = form.vars.salida
+                            db(db.bonos.id == bono.id).update(dias_resto=record.caducidad)
                             record.update_record()
                             response.flash = T("Bono de 6 horas mes usado. Asistencia registrada.")
                             redirect(URL('view'))
@@ -100,6 +103,7 @@ def salida():
                             #### Siguiente bono
         msg = msg + "SALIMOS DEL BUCLE SIN BONO"
         msg = msg + "RECORD: " + str(record)
+        redirect(URL('view'))
         if not record.caducidad :
             msg = msg + 'No quedan bonos que comprobar'
             record.bono_usado = "dia6h"                                    #Actualizando DDBB
@@ -111,7 +115,7 @@ def salida():
             record.update_record()
             response.flash = T("Bono de dia. Asistencia registrada.")
             #### Record 1 dia
-
+            redirect(URL('view'))
     else:
         response.flash = T('Edita información de salida')
         loopmsg = 'No hay bonos'

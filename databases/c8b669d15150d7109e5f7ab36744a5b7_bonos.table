@@ -137,12 +137,12 @@ I00
 sg9
 I512
 sg10
-S'CHAR(512)'
+S'INTEGER'
 p42
 sg12
 I00
 sg13
-S'string'
+S'integer'
 p43
 ssS'tipo_bono'
 p44

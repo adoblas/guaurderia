@@ -7,9 +7,9 @@ def index():
 def add():
     form = SQLFORM(db.bonos, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Crear bono', _type="submit")]).process()
-    precio = 0
     if form.process().accepted:
         response.flash = T('Bono creado')
+        redirect(URL('view'))
     else:
         response.flash = T('Edita información del nuevo bono')
     return locals()
