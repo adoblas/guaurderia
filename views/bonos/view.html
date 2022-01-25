@@ -4,6 +4,13 @@
   <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add' role="button">Añadir bono</a>
 </div>
 <br><br><br>
+<h5>Total bonos actuales: {{=total_bonos}}</h5>
+<h3>
+  <div class='.col-6 .col-md-4'>
+      {{=form}}
+  </div>    
+</h3>
+
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/'>Todos</a></li>
@@ -49,7 +56,7 @@
           <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>-</a></td>
           <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.tipo_bono.tipo_bono}}</a></td>
           {{pass}}
-        {{pass}}  
+        {{pass}} 
     </tr>
     {{ pass }}
 </table>

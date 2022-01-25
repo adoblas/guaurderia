@@ -7,9 +7,11 @@ def index(): #return dict(message="hello from propietarios.py")
 def add():
     form = SQLFORM(db.propietarios, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Crear propietario', _type="submit")]).process()
-    if form.process().accepted:
-        response.flash = T('Propietario creado')
+    if form.accepted:
+        #response.flash = T('Propietario creado')
         redirect(URL('view'))
+    elif form.errors:
+        response.flash = 'Revisa el formulario. Faltan datos requeridos.'    
     else:
         response.flash = T('Edita información del nuevo propietario')
     return locals()

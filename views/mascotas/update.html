@@ -3,7 +3,9 @@
 <br>
 <br>
 <h1>Edita información de {{=record.nombre}}</h1>
-<br><br><br>
+<a class="btn btn-info" href='/{{=request.application}}/registro/view_mascota/{{=record.id}}' role="button">Acceder a asistencias</a>
+<br><br>
+<br>
 {{=form}}
 
 {{ if record.modified_by: }}

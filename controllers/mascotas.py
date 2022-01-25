@@ -3,18 +3,15 @@ def index():
     redirect(URL('view'))
     return locals()
 
-# @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
-# def data():
-#     rows = db(db.mascotas).select()
-#     return locals()
-
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def add():
     form = SQLFORM(db.mascotas, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Crear mascota', _type="submit")]).process()
-    if form.process().accepted:
-        response.flash = T('Mascota creada')
+    if form.accepted:
+        #response.flash = T('Mascota creada')
         redirect(URL('view'))
+    elif form.errors:
+        response.flash = 'Revisa el formulario. Faltan datos requeridos.'    
     else:
         response.flash = T('Edita la información del nuevo peludo.')
     return locals()

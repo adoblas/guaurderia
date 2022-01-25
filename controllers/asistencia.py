@@ -19,7 +19,7 @@ def add():
         form.vars.entrada = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
     if form.process().accepted:
-        response.flash = T('Entrada registrada')
+        #response.flash = T('Entrada registrada')
         redirect(URL('view'))
     else:
         response.flash = T('Edita información del nuevo bono')

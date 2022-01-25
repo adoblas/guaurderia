@@ -10,9 +10,10 @@ def index():
 def add():
     form = SQLFORM(db.bonos, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Crear bono', _type="submit")]).process()
-    if form.process().accepted:
-        response.flash = T('Bono creado')
+    if form.accepted:
         redirect(URL('view'))
+    elif form.errors:
+        response.flash = 'Revisa el formulario. Faltan datos requeridos.'    
     else:
         response.flash = T('Edita información del nuevo bono')
     return locals()
@@ -20,17 +21,28 @@ def add():
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def view():
     hoy = datetime.now().date()
-    if request.args(0) is None:
-        rows = db(db.bonos).select(limitby=(0, 50))
+    total_bonos = db(db.bonos).count()
+    form = SQLFORM.factory(
+        Field('nombre_busqueda', label=T('Buscar mascota')), 
+        submit_button='Buscar').process()
+    if form.accepted:
+        response.flash = 'Resultados busqueda'
+        session.nombrebusqueda = form.vars.nombre_busqueda
+        if not session.nombrebusqueda:
+            rows = db(db.bonos).select(limitby=(0, 100))
+        else:    
+            rows = db(db.bonos).select().find(lambda row: session.nombrebusqueda in row.mascota.nombre)
     else:
-        tipo = request.args(0)
-        if tipo == 'caducados' :
-            # Bonos caducados
-            rows = db(db.bonos.duracion_expira < datetime.now().date()).select()
-        elif tipo == 'proximosacaducar' :
-            rows = db((db.bonos.duracion_expira < datetime.now().date() + timedelta(days=10))&(db.bonos.duracion_expira >= datetime.now().date())).select()
+        if request.args(0) is None:
+            rows = db(db.bonos).select(limitby=(0, 100))
         else:
-            rows = db(db.bonos.tipo_bono==tipo).select()
+            tipo = request.args(0)
+            if tipo == 'caducados' :
+                rows = db(db.bonos.duracion_expira < datetime.now().date()).select()
+            elif tipo == 'proximosacaducar' :
+                rows = db((db.bonos.duracion_expira < datetime.now().date() + timedelta(days=10))&(db.bonos.duracion_expira >= datetime.now().date())).select()
+            else:
+                rows = db(db.bonos.tipo_bono==tipo).select()
     return locals()
 
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
