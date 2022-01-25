@@ -154,26 +154,6 @@ if configuration.get('scheduler.enabled'):
 # -------------------------------------------------------------------------
 # auth.enable_record_versioning(db)
 
-db.define_table('blog',
-                Field('blog_title', requires=IS_NOT_EMPTY() ),
-                Field('blog_details', type='text'),
-                Field('blog_image', requires=IS_URL() ),
-                Field('blog_url', requires=IS_URL() ),
-                Field('blog_category', requires=IS_IN_SET(['News', 'Events']) ),
-                Field('blog_date_posted', type='date', requires=IS_DATE() )
-                )
-
-db.define_table('mascota',
-                Field('perro', requires=IS_NOT_EMPTY() ),
-                Field('estado'),
-                Field('email', requires=IS_EMAIL() ),
-                Field('dias', type='integer'),
-                Field('bono', requires=IS_IN_SET(['mes', 'mes 6h', '10 dias', '10 dias 6h', 'dia', 'dia 6h']) ),
-                Field('raza'),
-                Field('instagram')
-                )
-
-
 #########################################
 ############ Guaurderia DDBB ############
 #########################################
@@ -188,9 +168,11 @@ db.define_table('propietarios',
                 Field('nombre_apellidos', requires=IS_NOT_EMPTY() ),
                 Field('email', requires=IS_EMAIL() ),
                 Field('telefono', label=T('Telefono contacto')),
+                Field('observaciones', type='text', label=T('Observaciones')),
                 Field('informacion', type='boolean', label=T('Recibir información por email')),
                 Field('redes', type='boolean', label=T('Etiquetar en redes')),
                 Field('datos', type='boolean', label=T('Protección de datos')),
+                Field('normas', type='boolean', label=T('Aceptación de Normas')),
                 Field('telefono2', label=T('Telefono contacto 2')),
                 Field('dni', label=T('DNI')),
                 auth.signature
@@ -200,7 +182,7 @@ db.define_table('mascotas',
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
                 Field('raza', label=T('Raza Mascota')),
                 Field('sexo', requires=IS_IN_SET(['macho', 'hembra', '']), label=T('Sexo Mascota')),
-                Field('descripcion', type='text', label=T('Descripción')),
+                Field('descripcion', label=T('Descripción')),
                 Field('fecha_nacimiento', type='date', label=T('Fecha nacimiento')),
                 Field('inscripcion', type='date', label=T('Fecha inscripción')),
                 Field('esterilizado', type='boolean', label=T('Esterilizado')),
@@ -214,10 +196,23 @@ db.define_table('mascotas',
 db.define_table('bonos',
                 Field('mascota', 'reference mascotas'),
                 Field('tipo_bono', 'reference tipo_bono', label=T('Tipo Bono')),
-                Field('duracion_expira', type='date', label=T('Expira en fecha')),
-                Field('dias_resto', label=T('Resto de dias')),
+                Field('pagado', type='boolean', label=T('Bono pagado')),
+                Field('duracion_expira', type='date', label=T('Expira en fecha'), requires=IS_DATE()),
+                Field('dias_resto', type='integer', label=T('Resto de dias')),
                 auth.signature
                 )
+
+db.define_table('asistencia',
+                Field('mascota', 'reference mascotas'),
+                Field('bono_usado', 'reference bonos'),
+                Field('por_consumir'),
+                Field('caducidad'),
+                Field('entrada', type='datetime', label=T('Registro entrada')),
+                Field('salida', type='datetime', label=T('Registro salida')),
+                auth.signature
+                )
+
+db.asistencia.mascota.requires = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
 
 db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_apellidos)s')
 

@@ -1,0 +1,27 @@
+{{extend 'layout.html'}}
+
+<br>
+<h1>Registro de asistencia</h1>
+<br>
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Nombre</th>
+        <th>Raza</th>
+        <th>Histórico asistencias</th>
+        <th>Bono usados</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        <td>{{=x.mascota.nombre}}</td>
+        <td>{{=x.mascota.raza}}</td>
+        <td>
+            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/view_mascota/{{=x.mascota}}' role="button">Acceder a asistencias</a>
+        </td>
+        <td>
+            {{ for bono in dict_bonos[x.id] :}}
+                <a href='/{{=request.application}}/registro/view_bono/{{=bono.id}}'>{{=bono.tipo_bono.tipo_bono}}</a>
+            {{ pass }}
+        </td>
+    </tr>
+    {{ pass }}
+</table>

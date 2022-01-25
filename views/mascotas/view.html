@@ -1,5 +1,10 @@
 {{extend 'layout.html'}}
 
+
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+    <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add' role="button">Añadir mascota</a>
+  </div>
+  <br><br><br>
 <h3>
     <div class='.col-6 .col-md-4'>
         {{=form}}
@@ -33,10 +38,7 @@
             <span class="sr-only">Next</span>
         </a>
     </li>
-    <li class="page-item">
-        <div  style="margin-left: auto;margin-right: 0;">
-            <a class="page-link" href='/{{=request.application}}/{{=request.controller}}/add'>Añadir mascota</a></li>
-        </div>
+
   </ul>
 </nav>
 
@@ -46,15 +48,19 @@
         <th>Raza</th>
         <th>Bonos</th>
         <th>Descripción</th>
-        <th>instagram</th>
+        <th>Propietario</th>
     </tr>
     {{ for x in rows: }}
     <tr>
         <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.nombre}}</a></td>
         <td>{{=x.raza}}</td>
-        <td><a href='/{{=request.application}}/bonos/update/{{=bonosdir[x.id][0]}}'>{{=bonosdir[x.id][1]}}</a></td>
+        <td>
+            {{ for bono in dict_bonos[x.id] :}}
+                <a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.tipo_bono.tipo_bono}}</a>
+            {{ pass }}
+        </td>
         <td>{{=x.descripcion}}</td>
-        <td>{{=x.instagram}}</td>
+        <td><a href='/{{=request.application}}/propietarios/update/{{=x.propietario}}'>{{=x.propietario.nombre_apellidos}}</a></td>
     </tr>
     {{ pass }}
 </table>

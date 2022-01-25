@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+    <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/view' role="button">Asistencias</a>
+</div>
+<br>
+<br>
+<h1>Registrar salida {{=record.mascota.nombre}} </h1>
+<br>
+
+{{=form}}
+<br>
+<br>
+{{=msg}}
+<br>
+{{=newBono}}

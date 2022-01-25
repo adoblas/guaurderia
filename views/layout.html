@@ -37,50 +37,34 @@
     <!-- Navbar ======================================= -->
     <nav class="navbar navbar-expand-md bg-faded bg-dark navbar-dark justify-content-center">
          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href='/{{=request.application}}/default/'>Guaurderia</a>
+          <a class="navbar-brand" href='/{{=request.application}}/asistencia/view'>Guaurderia</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Mascotas
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href='/{{=request.application}}/mascotas/view/'>Lista mascotas</a>
-                  <a class="dropdown-item" href='/{{=request.application}}/mascotas/add/'>Añadir mascota</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Propietarios
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href='/{{=request.application}}/propietarios/view/'>Lista propietarios</a>
-                  <a class="dropdown-item" href='/{{=request.application}}/propietarios/add/'>Añadir propietario</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Bonos
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href='/{{=request.application}}/bonos/view/'>Lista bonos</a>
-                  <a class="dropdown-item" href='/{{=request.application}}/bonos/add/'>Añadir bono</a>
-                </div>
+              <li class="nav-item">
+                <a class="nav-link" href='/{{=request.application}}/mascotas/view/'>Mascotas</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link href="#">Asistencia</a>
+                <a class="nav-link" href='/{{=request.application}}/propietarios/view/'>Propietarios</a>  
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href='/{{=request.application}}/bonos/view/'>Bonos</a>  
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href='/{{=request.application}}/registro/view'>Registro asistencia</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href='/admin/default/index'>Admin</a>
                   <a class="dropdown-item" href='/{{=request.application}}/default/admin/mascotas'>Admin Mascotas</a>
                   <a class="dropdown-item" href='/{{=request.application}}/default/admin/propietarios'>Admin Propietarios</a>
                   <a class="dropdown-item" href='/{{=request.application}}/default/admin/bonos'>Admin Bonos</a>
+                  <a class="dropdown-item" href='/{{=request.application}}/default/admin/asistencia'>Admin Asistencia</a>
                 </div>
               </li>
             </ul>

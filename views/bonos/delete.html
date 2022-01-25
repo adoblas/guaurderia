@@ -1,10 +1,10 @@
 {{extend 'layout.html'}}
-<a href='/{{=request.application}}/{{=request.controller}}/view/' class="btn btn-info btn-lg active" role="button" aria-pressed="true">Propietarios</a>
+
+<a href='/{{=request.application}}/{{=request.controller}}/view/' class="btn btn-info btn-lg active" role="button" aria-pressed="true">Bonos</a>
 <br>
 <br>
-<h1>Edita información de {{=record.nombre_apellidos}}</h1>
-<br><br><br>
-{{=form}}
+<h1>Bono de {{=record.mascota.nombre}} borrado</h1>
+<br>
 
 {{ if record.modified_by: }}
 <div class="container center">

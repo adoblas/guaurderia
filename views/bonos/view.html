@@ -1,0 +1,55 @@
+{{extend 'layout.html'}}
+
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+  <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add' role="button">Añadir bono</a>
+</div>
+<br><br><br>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/'>Todos</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/1'>Mes (6h)</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/2'>Mes</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/3'>10 Días (6h)</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/4'>10 Días</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/5'>Día (6h)</a></li>
+    <li class="page-item"><a class="page-link" href='/{{=request.application}}/{{=request.controller}}/view/6'>Día</a></li>
+    <li class="page-item"><a class="page-link" style="color:orange;" href='/{{=request.application}}/{{=request.controller}}/view/proximosacaducar'>Próximos a caducar</a></li>
+    <li class="page-item"><a class="page-link" style="color:red;" href='/{{=request.application}}/{{=request.controller}}/view/caducados'>Caducados</a></li>
+  </ul>
+</nav>
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Macota</th>
+        <th>Caducidad</th>
+        <th>Por consumir</th>
+        <th>Tipo de Bono</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        <td><a href='/{{=request.application}}/mascotas/update/{{=x.mascota}}'>{{=x.mascota.nombre}}</a></td>
+        {{if x.duracion_expira < hoy :}}
+          <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.duracion_expira}}</a></td>
+          <td>
+            <a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.dias_resto}} </a> &emsp;
+            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/delete/{{=x.id}}' role="button">Borrar bono</a>
+            <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.tipo_bono.tipo_bono}}</a></td>
+        </td>
+        {{else:}}
+        <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.duracion_expira}}</a></td>
+          {{if x.tipo_bono.tipo_bono.find("mes")==-1 :}}
+            {{if x.dias_resto == 0 :}}
+            <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.dias_resto}}</a> &emsp;
+            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/delete/{{=x.id}}' role="button">Borrar bono</a>
+            <td  style="color:red;" >{{=x.tipo_bono.tipo_bono}}</td>
+            {{else:}}
+            <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.dias_resto}}</a></td>
+            <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.tipo_bono.tipo_bono}}</a></td>
+            {{pass}}
+          {{else:}}
+          <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>-</a></td>
+          <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.tipo_bono.tipo_bono}}</a></td>
+          {{pass}}
+        {{pass}}  
+    </tr>
+    {{ pass }}
+</table>

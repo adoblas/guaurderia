@@ -1,5 +1,9 @@
 {{extend 'layout.html'}}
 
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+    <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/add' role="button">Añadir propietario</a>
+  </div>
+  <br><br><br>
 <h3>
     <div class='.col-6 .col-md-4'>
         {{=form}}
@@ -33,10 +37,7 @@
             <span class="sr-only">Next</span>
         </a>
     </li>
-    <li class="page-item">
-        <div  style="margin-left: auto;margin-right: 0;">
-            <a class="page-link" href='/{{=request.application}}/{{=request.controller}}/add'>Añadir propietario</a></li>
-        </div>
+
   </ul>
 </nav>
 
@@ -50,7 +51,11 @@
     {{ for x in rows: }}
     <tr>
         <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.nombre_apellidos}}</a></td>
-        <td><a href='/{{=request.application}}/mascotas/update/{{=mascotasdir[x.id][0]}}'>{{=mascotasdir[x.id][1]}}</a></td>
+        <td>
+            {{ for mascota in dict_mascotas[x.id] :}}
+                <a href='/{{=request.application}}/mascotas/update/{{=mascota.id}}'>{{=mascota.nombre}}</a>
+            {{ pass }}
+        </td>
         <td>{{=x.email}}</td>
         <td>{{=x.telefono}}</td>
     </tr>

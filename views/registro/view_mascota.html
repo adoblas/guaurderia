@@ -1,0 +1,35 @@
+{{extend 'layout.html'}}
+
+
+<div class="btn-group mr-2 btn-group-lg" role="group" aria-label="Second group">
+    <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/view' role="button">Registro asistencia</a>
+  </div>
+  <br><br><br>
+  <h1>Registro de asistencia de {{=rows[0].mascota.nombre}}</h1>
+
+<table class='table table-striped table-hover'>
+    <tr>
+        <th>Bono usado</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Consumido</th>
+        <th>Caducidad del bono usado</th>
+    </tr>
+    {{ for x in rows: }}
+    <tr>
+        {{if x.bono_usado :}}
+            <td>{{=x.bono_usado.tipo_bono.tipo_bono}}</td>
+            <td>{{=x.entrada}}</td>
+            <td>{{=x.salida}}</td>
+            <td>{{=x.por_consumir}}</td>
+            <td>{{=x.caducidad}}</td>
+        {{else:}}
+            <td>Pendiente</td>
+            <td>{{=x.entrada}}</td>
+            <td>Pendiente</td>
+            <td>Pendiente</td>
+            <td>Pendiente</td>
+        {{pass}}
+    </tr>
+    {{ pass }}
+</table>
