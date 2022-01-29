@@ -199,6 +199,7 @@ db.define_table('bonos',
                 Field('pagado', type='boolean', label=T('Bono pagado')),
                 Field('duracion_expira', type='date', label=T('Expira en fecha'), requires=IS_DATE()),
                 Field('dias_resto', type='integer', label=T('Resto de dias')),
+                Field('avisado', type='boolean', label=T('Propietario avisado sobre caducidad')),
                 auth.signature
                 )
 

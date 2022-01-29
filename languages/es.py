@@ -281,6 +281,7 @@
 'Profile': 'Perfil',
 'Profile updated': 'Perfil actualizado',
 'Propietario actualizado': 'Propietario actualizado',
+'Propietario avisado sobre caducidad': 'Propietario avisado sobre caducidad',
 'Propietario/a': 'Propietario/a',
 'Propietarioses': 'Propietarioses',
 'Propietarioses(created_by)': 'Propietarioses(created_by)',
