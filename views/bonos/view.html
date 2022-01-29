@@ -27,6 +27,7 @@
 <table class='table table-striped table-hover'>
     <tr>
         <th>Macota</th>
+        <th>Raza</th>
         <th>Caducidad</th>
         <th>Por consumir</th>
         <th>Tipo de Bono</th>
@@ -34,6 +35,7 @@
     {{ for x in rows: }}
     <tr>
         <td><a href='/{{=request.application}}/mascotas/update/{{=x.mascota}}'>{{=x.mascota.nombre}}</a></td>
+        <td>{{=x.mascota.raza}}</td>
         {{if x.duracion_expira < hoy :}}
           <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=x.id}}'>{{=x.duracion_expira}}</a></td>
           <td>
