@@ -48,6 +48,7 @@ def view():
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def update():
     record = db.mascotas(request.args(0)) or redirect(URL('view'))
+    dict_bonos = db(db.bonos.mascota==record.id).select(db.bonos.tipo_bono,db.bonos.id)
     form = SQLFORM(db.mascotas, record, showid=False, deletable = True, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Guardar cambios', _type="submit")])
     if form.process().accepted:

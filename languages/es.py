@@ -252,6 +252,7 @@
 'Not Authorized': 'No Autorizado',
 'not in': 'not in',
 'Number of entries: **%s**': 'Numero de entradas: **%s**',
+'Núm. Chip': 'Núm. Chip',
 'Object or table name': 'Nombre del objeto o tabla',
 'Observaciones': 'Observaciones',
 'Old password': 'Contraseña vieja',
