@@ -4,11 +4,48 @@
 </div>
 <br>
 <br>
-<h1>Registrar salida {{=record.mascota.nombre}} </h1>
+<h4>Bonos actuales de {{=record.mascota.nombre}}:</h4>
+<table class='table table-striped table-hover'>
+<tr>
+    <th>Tipo de Bono</th>
+    <th>Caducidad</th>
+    <th>Por consumir</th>
+</tr>
+{{ for bono in dict_bonos :}}
+    <tr>
+        {{ if bono.tipo_bono.tipo_bono.find("10")!=-1 or bono.tipo_bono.tipo_bono.find("mes")!=-1 : }}
+        <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>{{=bono.tipo_bono.tipo_bono}}</a></td>
+        {{if bono.duracion_expira < hoy :}}
+        <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>{{=bono.duracion_expira}}</a></td>
+        {{else:}}
+        <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>{{=bono.duracion_expira}}</a></td>
+        {{ pass }}
+        {{if bono.tipo_bono.tipo_bono.find("mes")==-1 :}}
+            {{if bono.dias_resto == 0 :}}
+            <td><a style="color:red;" href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>{{=bono.dias_resto}}</a> &emsp;
+            {{else:}}
+            <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>{{=bono.dias_resto}}</a></td>
+            {{pass}}
+        {{else:}}
+        <td><a href='/{{=request.application}}/{{=request.controller}}/update/{{=bono.id}}'>-</a></td>
+    
+        {{pass}}
+        {{pass}}
+        {{ else: }}
+        {{ pass}}
+         
+    </tr>
+    
+{{ pass }}
+</table>
+<br>
+<h4>Registrar hora de salida {{=record.mascota.nombre}} </h4>
 <br>
 
 {{=form}}
 <br>
+
+{{=DIV('Validar salida', _onclick="jQuery(this).fadeOut()")}}
 <br>
 {{=msg}}
 <br>

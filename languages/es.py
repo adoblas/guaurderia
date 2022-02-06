@@ -222,7 +222,7 @@
 'Logout': 'Fin de sesión',
 'Lost Password': 'Contraseña perdida',
 'Lost your password?': 'Lost your password?',
-'Macota actualizada': 'Macota actualizada',
+'Mascota actualizada': 'Mascota actualizada',
 'Manage %(action)s': 'Gestionar %(action)s',
 'Manage Access Control': 'Gestionar control de acceso',
 'Manage Cache': 'Gestionar la Caché',

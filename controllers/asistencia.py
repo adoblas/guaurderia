@@ -31,6 +31,8 @@ def salida():
     form = SQLFORM(db.asistencia, record, showid=False,
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Registrar salida', _type="submit")],
     fields=['salida'])
+    hoy = datetime.now().date()
+    dict_bonos = db(db.bonos.mascota==record.mascota).select()
     if form.validate():
         if not form.vars.salida:
             form.vars.salida = datetime.now()
@@ -99,6 +101,7 @@ def salida():
                                 record.caducidad = bono.duracion_expira
                                 record.por_consumir = bono.dias_resto - 1
                                 record.salida = form.vars.salida
+                                record.update_record()
                                 db(db.bonos.id == bono.id).update(dias_resto=record.por_consumir)
                                 record.update_record()
                                 msg = msg + "\nBono elegido =====> " + tipo

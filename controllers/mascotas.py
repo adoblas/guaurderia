@@ -52,7 +52,7 @@ def update():
     form = SQLFORM(db.mascotas, record, showid=False, deletable = True, 
     buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Guardar cambios', _type="submit")])
     if form.process().accepted:
-        response.flash = T('Macota actualizada')
+        response.flash = T('Mascota actualizada')
         redirect(URL('view'))
     else:
         response.flash = T('Edita información del peludo')
