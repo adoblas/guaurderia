@@ -33,7 +33,7 @@
         <td><a href='/{{=request.application}}/asistencia/update/{{=x.id}}'>{{=x.salida.time()}}</a> -> ({{=(x.salida-x.entrada)}})</td>
         {{else:}}
         <td>
-            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/salida/{{=x.id}}' role="button">Registrar salida</a>
+            <a class="btn btn-info" href='/{{=request.application}}/{{=request.controller}}/validar_salida/{{=x.id}}' role="button">Registrar salida</a>
         </td>
         {{pass}}
 

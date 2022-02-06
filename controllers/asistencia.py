@@ -139,6 +139,122 @@ def salida():
         newBono = ''
     return locals()
 
+
+@auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
+def validar_salida():
+    record = db.asistencia(request.args(0)) or redirect(URL('view'))
+    form = SQLFORM(db.asistencia, record, showid=False,
+    buttons = [BUTTON('Volver', _type="button", _onClick="parent.location='%s'" % URL('view')), BUTTON('Validar bonos', _type="submit")],
+    fields=['salida'])
+    hoy = datetime.now().date()
+    now = datetime.now()
+    dict_bonos = db(db.bonos.mascota==record.mascota).select()
+    info = 'Esta es la variable info'
+    bono_matcheado = False
+    asistencia_output = record
+    if form.validate():
+        if not form.vars.salida:
+            form.vars.salida = now
+        ## Logica de bonos
+        bonos_actuales = db(db.bonos.mascota==record.mascota).select(orderby=db.bonos.tipo_bono)
+        for bono in bonos_actuales:
+            while (not bono_matcheado) :
+                tipo = bono.tipo_bono.tipo_bono
+                if bono.duracion_expira >= form.vars.salida.date() :                         #Comprobacion caducidad
+                    if tipo.find("mes") != -1 :                                              #Matchea con mes
+                        if tipo.find("6h")!= -1 :                                            #Mes6h
+                            if (form.vars.salida - record.entrada) < timedelta(hours=6) :   #Comprobacion de 6h (excedido)
+                                info += "Llamamos con:"
+                                info += str(bono.tipo_bono.tipo_bono)
+                                asistencia_output = bono_validado(record, bono, 1, form.vars.salida, False)
+                                bono_matcheado = True
+                                info += "Salida de metodo aux: " + str(asistencia_output)
+                                response.flash = T('Bono calculado')
+                                #### Record mes6h
+                        else:                                                               #Bono de mes validado
+                            info += "Llamamos con:"
+                            info += str(bono.tipo_bono.tipo_bono)
+                            asistencia_output = bono_validado(record, bono, 2, form.vars.salida, False)
+                            bono_matcheado = True
+                            info += "Salida de metodo aux: " + str(asistencia_output)
+                            response.flash = T('Bono calculado')
+                            #### Record mes
+                    else:
+                        if tipo.find("10dias") != -1 :                                      #Bono de 10dias
+                            if tipo.find("6h")!=-1 :                                        #10dias6h
+                                if (form.vars.salida - record.entrada) < timedelta(hours=6) :   #Comprobacion de 6h
+                                    if (bono.dias_resto >= 1) :
+                                        info += "Llamamos con:"
+                                        info += str(bono.tipo_bono.tipo_bono)
+                                        asistencia_output = bono_validado(record, bono, 3, form.vars.salida, False)
+                                        bono_matcheado = True
+                                        info += "Salida de metodo aux: " + str(asistencia_output)
+                                        response.flash = T('Bono calculado')
+                                        #### Record 10dias6h
+                            else:                                                               #Bono de 10dias validado
+                                if (bono.dias_resto >= 1) :
+                                    info += "Llamamos con:"
+                                    info += str(bono.tipo_bono.tipo_bono)
+                                    asistencia_output = bono_validado(record, bono, 4, form.vars.salida, False)
+                                    bono_matcheado = True
+                                    info += "Salida de metodo aux: " + str(asistencia_output)
+                                    response.flash = T('Bono calculado')
+                                    #### Record 10dias
+            if bono_matcheado == False :
+                if (form.vars.salida - record.entrada) > timedelta(hours=6) :   #Comprobacion de 6h (excedido)
+                    info += "Llamamos con:"
+                    info += str(bono.tipo_bono.tipo_bono)
+                    asistencia_output = bono_validado(record, '', 5, form.vars.salida, False)
+                    info += "Salida de metodo aux: " + str(asistencia_output)
+                    response.flash = T('Bono calculado')
+                else:
+                    info += "Llamamos con:"
+                    info += str(bono.tipo_bono.tipo_bono)
+                    asistencia_output = bono_validado(record, '', 6, form.vars.salida, False)
+                    info += "Salida de metodo aux: " + str(asistencia_output)
+                    response.flash = T('Bono calculado')
+        bono_matcheado = True
+    else:
+        response.flash = T('Edita información de salida')
+    
+    return locals()
+
+@auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
+def bono_validado(asistencia, bono, tipo, salida, upload) :
+    #info = "La info del bono que llega es:" + '\n'.join(asistencia)
+    if (bono == '') : #Bonos de dias sueltos
+        bono = db.bonos.insert(mascota=asistencia.mascota, tipo_bono=tipo, duracion_expira=datetime.now().date(), dias_resto=0)
+
+    if (tipo == 1 or tipo == 2) : #Bono de mes
+        asistencia.bono_usado = bono                                    #Actualizando DDBB
+        asistencia.por_consumir = '-'
+        asistencia.caducidad = bono.duracion_expira
+        #asistencia.salida = salida
+    elif (tipo == 3 or tipo == 4) : #Bono de 10 dias
+        asistencia.bono_usado = bono                                    #Actualizando DDBB
+        asistencia.por_consumir = bono.dias_resto - 1
+        asistencia.caducidad = bono.duracion_expira
+        if upload :
+            db(db.bonos.id == bono.id).update(dias_resto=asistencia.por_consumir)
+    elif (tipo == 5 or tipo == 6) : #Bono de dia suelto
+        asistencia.bono_usado = bono
+        asistencia.por_consumir = 0
+        asistencia.caducidad = datetime.now().date()
+    asistencia.salida = salida
+    if upload :
+        asistencia.salida = datetime.strptime(salida, '%Y-%m-%d_%H_%M_%S.%f')
+        asistencia.update_record()
+    return asistencia
+
+@auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
+def registrar():
+    asistencia = db.asistencia(request.args(0))
+    bono = db.bonos(request.args(1))
+    salida = request.args(2)
+    bono_validado(asistencia, bono, int(bono.tipo_bono), salida, True)
+    redirect(URL('view'))
+    return locals()
+
 @auth.requires(lambda: auth.has_membership('employee') or auth.has_membership('admin'))
 def view():
     if request.args(0) is None:

@@ -97,3 +97,5 @@
 [2022-01-24 18:23:07] EDIT guaurderia/views/asistencia/view.html: 0
 [2022-01-25 15:26:12] EDIT guaurderia/models/db.py: 1
 [2022-02-03 11:51:45] EDIT guaurderia/controllers/asistencia.py: 1
+[2022-02-06 16:00:23] CREATE asistencia/validates_salida.html: 0
+[2022-02-06 21:47:29] CREATE asistencia/registrar_asistencia.html: 0
