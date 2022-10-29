@@ -99,3 +99,19 @@
 [2022-02-03 11:51:45] EDIT guaurderia/controllers/asistencia.py: 1
 [2022-02-06 16:00:23] CREATE asistencia/validates_salida.html: 0
 [2022-02-06 21:47:29] CREATE asistencia/registrar_asistencia.html: 0
+<<<<<<< HEAD
+=======
+[2022-02-07 00:16:02] EDIT guaurderia/views/asistencia/validar_salida.html: 0
+[2022-02-07 00:16:35] EDIT guaurderia/views/asistencia/validar_salida.html: 0
+[2022-02-07 00:17:31] EDIT guaurderia/views/asistencia/validar_salida.html: -1
+[2022-02-07 00:19:22] EDIT guaurderia/views/asistencia/validar_salida.html: 0
+[2022-02-07 00:21:21] EDIT guaurderia/views/asistencia/validar_salida.html: 0
+[2022-02-07 09:01:09] EDIT guaurderia/views/asistencia/validar_salida.html: 0
+[2022-02-07 09:31:06] EDIT guaurderia/controllers/registro.py: 0
+[2022-02-07 11:28:17] EDIT guaurderia/controllers/asistencia.py: 5
+[2022-02-07 11:28:36] EDIT guaurderia/controllers/registro.py: 0
+[2022-02-07 11:28:56] EDIT guaurderia/views/asistencia/validar_salida.html: -4
+[2022-06-16 17:09:44] EDIT guaurderia/views/asistencia/view.html: 0
+[2022-06-16 17:10:14] EDIT guaurderia/views/asistencia/view.html: 0
+[2022-06-16 17:11:07] EDIT guaurderia/views/asistencia/view.html: 0
+>>>>>>> 65d4339... Update current app status in mav

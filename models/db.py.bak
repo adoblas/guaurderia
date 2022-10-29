@@ -213,7 +213,10 @@ db.define_table('asistencia',
                 )
 
 db.asistencia.mascota.requires = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
+<<<<<<< HEAD
 #db.asistencia.bono_usado.requires = IS_IN_DB(db, 'bonos.id')
+=======
+>>>>>>> 65d4339... Update current app status in mav
 
 db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_apellidos)s')
 
