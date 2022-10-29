@@ -164,6 +164,10 @@ db.define_table('tipo_bono',
                 Field('dias')
                 )
 
+db.define_table('tipo_recogida',
+                Field('tipo', label=T('Recogida'))
+                )
+
 db.define_table('propietarios',
                 Field('nombre_apellidos', requires=IS_NOT_EMPTY() ),
                 Field('email', requires=IS_EMAIL() ),
@@ -179,6 +183,7 @@ db.define_table('propietarios',
                 )
 
 db.define_table('mascotas',
+                Field('inactivo', type='boolean', label=T('Inactivo')),
                 Field('nombre', label=T('Nombre Mascota'), requires=IS_NOT_EMPTY() ),
                 Field('raza', label=T('Raza Mascota')),
                 Field('chip', label=T('Núm. Chip'), requires=IS_NOT_EMPTY()),
@@ -187,7 +192,9 @@ db.define_table('mascotas',
                 Field('fecha_nacimiento', type='date', label=T('Fecha nacimiento')),
                 Field('inscripcion', type='date', label=T('Fecha inscripción')),
                 Field('esterilizado', type='boolean', label=T('Esterilizado')),
-                Field('vacunacion', type='text', label=T('Vacunación')),
+                Field('Rabia', type='date', label=T('Rabia'), default=IS_DATETIME(format=T('%Y'))),
+                Field('Polivalente', type='date', label=T('Polivalente'), default=IS_DATETIME(format=T('%Y'))),
+                Field('vacunacion', type='text', label=T('Alergias, problemas médicos y medicación')),
                 Field('veterinario', label=T('Veterinario habitual')),
                 Field('instagram', label=T('Cuenta Instagram') ),
                 Field('propietario', 'reference propietarios', label=T('Propietario/a')),
@@ -198,6 +205,7 @@ db.define_table('bonos',
                 Field('mascota', 'reference mascotas'),
                 Field('tipo_bono', 'reference tipo_bono', label=T('Tipo Bono')),
                 Field('pagado', type='boolean', label=T('Bono pagado')),
+                Field('recogida', 'reference tipo_recogida', default=1 ,label=T('Recogida')),
                 Field('duracion_expira', type='date', label=T('Expira en fecha'), requires=IS_DATE()),
                 Field('dias_resto', type='integer', label=T('Resto de dias')),
                 Field('avisado', type='boolean', label=T('Propietario avisado sobre caducidad')),
@@ -209,6 +217,7 @@ db.define_table('asistencia',
                 Field('bono_usado', 'reference bonos'),
                 Field('por_consumir'),
                 Field('caducidad'),
+                Field('recogida'),
                 Field('entrada', type='datetime', label=T('Registro entrada')),
                 Field('salida', type='datetime', label=T('Registro salida')),
                 auth.signature
@@ -220,3 +229,4 @@ db.mascotas.propietario.requires = IS_IN_DB(db, 'propietarios.id', '%(nombre_ape
 
 db.bonos.mascota.requires   = IS_IN_DB(db, 'mascotas.id', '%(nombre)s - %(raza)s - %(descripcion)s')
 db.bonos.tipo_bono.requires = IS_IN_DB(db, 'tipo_bono.id', '%(tipo_bono)s')
+db.bonos.recogida.requires = IS_IN_DB(db, 'tipo_recogida.id', '%(tipo)s')

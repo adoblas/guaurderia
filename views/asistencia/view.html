@@ -21,6 +21,7 @@
         <th>Hora entrada</th>
         <th>Hora salida</th>
         <th>Por consumir</th>
+        <th>Recogida</th>
         <th>Caducidad</th>
         <th>Tipo de Bono</th>
     </tr>
@@ -39,6 +40,12 @@
 
         {{if x.bono_usado :}}
         <td>{{=x.por_consumir}}</td>
+        {{else:}}
+        <td>pendiente</td>
+        {{pass}}
+
+        {{if x.bono_usado :}}
+        <td>{{=x.recogida}}</td>
         {{else:}}
         <td>pendiente</td>
         {{pass}}

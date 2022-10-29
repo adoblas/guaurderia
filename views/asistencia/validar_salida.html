@@ -5,9 +5,13 @@
 <br>
 <br>
 <h4>Bonos actuales de {{=record.mascota.nombre}}:</h4>
+
+{{=info}}
+{{=logic}}
 <table class='table table-striped table-hover'>
 <tr>
     <th>Tipo de Bono</th>
+    <th>Recogida</th>
     <th>Caducidad</th>
     <th>Por consumir</th>
     <th>Seleccion Manual</th>
@@ -16,6 +20,11 @@
     <tr>
         {{ if bono.tipo_bono.tipo_bono.find("10")!=-1 or bono.tipo_bono.tipo_bono.find("mes")!=-1 : }}
         <td><a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.tipo_bono.tipo_bono}}</a></td>
+        {{if bono.recogida is None :}}
+            <td><a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>-</a></td>
+        {{else:}}
+            <td><a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.recogida.tipo}}</a></td>
+        {{ pass }}
         {{if bono.duracion_expira < hoy :}}
         <td><a style="color:red;" href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.duracion_expira}}</a></td>
         {{else:}}
@@ -48,11 +57,17 @@
     <table class='table table-striped table-hover'>
         <tr>
             <th>Tipo de Bono</th>
+            <th>Recogida</th>
             <th>Caducidad</th>
             <th>Por consumir</th>
         </tr>
         <tr>
             <td><a href='/{{=request.application}}/bonos/update/{{=asistencia_output[1].id}}'>{{=asistencia_output[1].tipo_bono.tipo_bono}}</a></td>
+            {{if asistencia_output[1].recogida is None :}}
+                <td><a href='/{{=request.application}}/bonos/update/{{=asistencia_output[1].id}}'>-</a></td>
+            {{else:}}
+                <td><a href='/{{=request.application}}/bonos/update/{{=asistencia_output[1].id}}'>{{=asistencia_output[1].recogida.tipo}}</a></td>
+            {{ pass }}
             {{if asistencia_output[1].duracion_expira < hoy :}}
             <td><a style="color:red;" href='/{{=request.application}}/bonos/update/{{=asistencia_output[1].id}}'>{{=asistencia_output[1].duracion_expira}}</a></td>
             {{else:}}

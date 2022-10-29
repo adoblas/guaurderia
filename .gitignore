@@ -3,6 +3,7 @@ errors/
 sessions/
 databases
 
+*.iml
 backup.py
 **.log
 **.py.bak

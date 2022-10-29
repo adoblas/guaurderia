@@ -10,7 +10,10 @@
 {{ for bono in dict_bonos :}}
     <a href='/{{=request.application}}/bonos/update/{{=bono.id}}'>{{=bono.tipo_bono.tipo_bono}}</a>
 {{ pass }}
-<br><br>
+<br>
+<h4>Propietario de {{=record.nombre}}:</h4>
+<a href='/{{=request.application}}/propietarios/update/{{=record.propietario.id}}'>{{=record.propietario.nombre_apellidos}}</a>
+<br>
 <h1>Información de {{=record.nombre}}</h1>
 <br><br>
 {{=form}}
