@@ -1,3 +1,9 @@
 .idea/
 errors/
 sessions/
+databases
+
+backup.py
+**.log
+**.py.bak
+**.html.bak

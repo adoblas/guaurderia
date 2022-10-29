@@ -17,7 +17,7 @@ def view():
         if not session.nombrebusqueda:
             rows = db(db.asistencia).select(limitby=(0, 100))
         else:    
-            rows = db(db.asistencia).select().find(lambda row: session.nombrebusqueda in row.mascota.nombre)
+            rows = db(db.asistencia).select(groupby=db.asistencia.mascota).find(lambda row: session.nombrebusqueda in row.mascota.nombre)
     else:
         if request.args(0) is None:
             rows = db(db.asistencia).select(limitby=(0, 100), orderby=db.asistencia.mascota , groupby=db.asistencia.mascota)
