@@ -245,13 +245,19 @@ def bono_validado(asistencia, bono, tipo, salida, upload) :
         asistencia.bono_usado = bono                                    #Actualizando DDBB
         asistencia.por_consumir = '-'
         asistencia.caducidad = bono.duracion_expira
-        asistencia.recogida = bono.regogida.tipo
+        if bono.recogida is None:
+            asistencia.recogida = 1
+        else:
+            asistencia.recogida = bono.recogida
         #asistencia.salida = salida
     elif (tipo == 3 or tipo == 4) : #Bono de 10 dias
         asistencia.bono_usado = bono                                    #Actualizando DDBB
         asistencia.por_consumir = bono.dias_resto - 1
         asistencia.caducidad = bono.duracion_expira
-        asistencia.recogida = bono.recogida.tipo
+        if bono.recogida is None:
+            asistencia.recogida = 1
+        else:
+            asistencia.recogida = bono.recogida
         if upload :
             db(db.bonos.id == bono.id).update(dias_resto=asistencia.por_consumir)
     elif (tipo == 5 or tipo == 6) : #Bono de dia suelto
