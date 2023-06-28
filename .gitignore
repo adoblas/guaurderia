@@ -1,10 +1,11 @@
 .idea/
 errors/
 sessions/
-databases
+databases/*
 
 *.iml
 backup.py
+**/**.bak
 **.log
 **.py.bak
 **.html.bak

@@ -55,7 +55,7 @@ def salida():
                         else:                                                           #Comprobacion de 6h (valida)
                             record.bono_usado = bono                                    #Actualizando DDBB
                             record.caducidad = bono.duracion_expira
-                            record.recogida = bono.recogida.tipo
+                            record.tipo_recogida = bono.tipo_recogida
                             record.por_consumir = '-'
                             record.salida = form.vars.salida
                             record.update_record()
@@ -66,7 +66,7 @@ def salida():
                     else:                                                               #Bono de mes validado
                         record.bono_usado = bono                                    #Actualizando DDBB
                         record.caducidad = bono.duracion_expira                     #Comprobacion de mes (valida)
-                        record.recogida = bono.recogida.tipo
+                        record.tipo_recogida = bono.tipo_recogida
                         record.por_consumir = '-'
                         record.salida = form.vars.salida
                         record.update_record()
@@ -84,7 +84,7 @@ def salida():
                                 if (bono.dias_resto >= 1) :
                                     record.bono_usado = bono                                    #Actualizando DDBB
                                     record.caducidad = bono.duracion_expira
-                                    record.recogida = bono.recogida.tipo
+                                    record.tipo_recogida = bono.tipo_recogida
                                     record.por_consumir = bono.dias_resto - 1
                                     record.salida = form.vars.salida
                                     record.update_record()
@@ -102,7 +102,7 @@ def salida():
                             if (bono.dias_resto >= 1) :
                                 record.bono_usado = bono                                    #Actualizando DDBB
                                 record.caducidad = bono.duracion_expira
-                                record.recogida = bono.recogida.tipo
+                                record.tipo_recogida = bono.tipo_recogida
                                 record.por_consumir = bono.dias_resto - 1
                                 record.salida = form.vars.salida
                                 record.update_record()
@@ -120,16 +120,16 @@ def salida():
         msg = msg + "\nRECORD: " + str(record)
        ## Bono de día
         if (form.vars.salida - record.entrada) > timedelta(hours=6) :   #Comprobacion de 6h (excedido)
-            newBono = db.bonos.insert(mascota=record.mascota, tipo_bono=6, recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
+            newBono = db.bonos.insert(mascota=record.mascota, tipo_bono=6, tipo_recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
             record.bono_usado = newBono
             msg = msg + "\nBono de dia suelto"
             #### Record 1 dia
         else :
-            newBono = db.bonos.insert(mascota=record.mascota, tipo_bono=5, recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
+            newBono = db.bonos.insert(mascota=record.mascota, tipo_bono=5, tipo_recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
             record.bono_usado = newBono
             msg = msg + "\nBono de dia suelto 6h"
         record.caducidad = datetime.now().date()
-        record.recogida = bono.recogida.tipo
+        record.tipo_recogida = bono.tipo_recogida
         record.por_consumir = 0
         record.salida = form.vars.salida
         record.update_record()
@@ -239,32 +239,32 @@ def validar_salida():
 def bono_validado(asistencia, bono, tipo, salida, upload) :
     #info = "La info del bono que llega es:" + '\n'.join(asistencia)
     if (bono == '') : #Bonos de dias sueltos
-        bono = db.bonos.insert(mascota=asistencia.mascota, tipo_bono=tipo, recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
+        bono = db.bonos.insert(mascota=asistencia.mascota, tipo_bono=tipo, tipo_recogida=1, duracion_expira=datetime.now().date(), dias_resto=0)
 
     if (tipo == 1 or tipo == 2) : #Bono de mes
         asistencia.bono_usado = bono                                    #Actualizando DDBB
         asistencia.por_consumir = '-'
         asistencia.caducidad = bono.duracion_expira
-        if bono.recogida is None:
+        if bono.tipo_recogida is None:
             asistencia.recogida = 1
         else:
-            asistencia.recogida = bono.recogida
+            asistencia.recogida = bono.tipo_recogida
         #asistencia.salida = salida
     elif (tipo == 3 or tipo == 4) : #Bono de 10 dias
         asistencia.bono_usado = bono                                    #Actualizando DDBB
         asistencia.por_consumir = bono.dias_resto - 1
         asistencia.caducidad = bono.duracion_expira
-        if bono.recogida is None:
+        if bono.tipo_recogida is None:
             asistencia.recogida = 1
         else:
-            asistencia.recogida = bono.recogida
+            asistencia.recogida = bono.tipo_recogida
         if upload :
             db(db.bonos.id == bono.id).update(dias_resto=asistencia.por_consumir)
     elif (tipo == 5 or tipo == 6) : #Bono de dia suelto
         asistencia.bono_usado = bono
         asistencia.por_consumir = 0
         asistencia.caducidad = datetime.now().date()
-        asistencia.recogida = '-'
+        asistencia.recogida = 1
     asistencia.salida = salida
     if upload :
         asistencia.salida = datetime.strptime(salida, '%Y-%m-%d_%H_%M_%S')
@@ -277,8 +277,8 @@ def registrar():
     asistencia = db.asistencia(request.args(0))
     bono = db.bonos(request.args(1))
     salida = request.args(2)
-    if bono.recogida is None:
-        bono.recogida = '-'
+    if bono.tipo_recogida is None:
+        bono.tipo_recogida = 1
     bono_validado(asistencia, bono, int(bono.tipo_bono), salida, True)
     redirect(URL('view'))
     return locals()

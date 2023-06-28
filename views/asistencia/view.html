@@ -45,7 +45,11 @@
         {{pass}}
 
         {{if x.bono_usado :}}
-        <td>{{=x.recogida}}</td>
+          {{if x.bono_usado.tipo_recogida :}}
+          <td>{{=x.bono_usado.tipo_recogida.tipo}}</td>
+          {{else:}}
+          <td>-</td>
+          {{pass}}
         {{else:}}
         <td>pendiente</td>
         {{pass}}
